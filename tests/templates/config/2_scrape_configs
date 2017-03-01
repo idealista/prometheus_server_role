@@ -1,0 +1,34 @@
+scrape_configs:
+  - job_name: 'prometheus_statistics'
+    static_configs:
+      - targets:
+        - {{ ansible_nodename }}:9090
+{% for app in apps %}
+
+  - job_name: '{{ app.get("server", app.name) }}'
+    static_configs:
+      - targets:
+{% set inventory =  app.get("inventory",  default_app.inventory) %}
+{% for env, countries in inventory.iteritems() %}
+{% for country, machines in countries.iteritems() %}
+{% set services =  app.get("services",  default_app.services) %}
+{% for service in services %}
+{% if machines is defined and machines > 0 %}
+{% for n in range(1, machines + 1) %}
+{% if env == "int" %}
+        - {{ app.name }}{{ n }}.{{ env }}.sys.idealista:{{ service }}
+{% else %}
+        - {{ app.name }}{{ n }}.{{ env }}.{{ country }}.sys.idealista:{{ service }}
+{% endif %}
+{% endfor %}
+{% else %}
+{% if env == "int" %}
+        - {{ app.name }}.{{ env }}.sys.idealista:{{ service }}
+{% else %}
+        - {{ app.name }}.{{ env }}.{{ country }}.sys.idealista:{{ service }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{% endfor %}

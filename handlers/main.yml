@@ -1,0 +1,10 @@
+---
+- name: restart prometheus
+  systemd:
+    name: prometheus
+    state: restarted
+
+- name: reload prometheus
+  uri:
+    url: http://localhost:9090/-/reload
+    method: "POST"

@@ -1,0 +1,14 @@
+[Unit]
+Description=Prometheus server
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+ExecStart=/bin/sh -c "{{ prometheus_bin_path }}/prometheus {% for option in prometheus_options %}-{{ option }} {% endfor %}> {{ prometheus_log_path }}/{{ prometheus_log_file }} 2>&1"
+User={{ prometheus_user }}
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

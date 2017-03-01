@@ -1,0 +1,16 @@
+---
+
+- name: PROMETHEUS | Install
+  include: install.yml
+  tags:
+    - install
+
+- name: PROMETHEUS | Configure
+  include: config.yml
+  tags:
+    - configure
+
+- name: PROMETHEUS | Service
+  include: service.yml
+  tags:
+    - service

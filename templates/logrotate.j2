@@ -1,0 +1,14 @@
+{{ prometheus_log_path }}/{{ prometheus_log_file }} {
+  daily
+  sharedscripts
+  notifempty
+  missingok
+  rotate 7
+  size 500M
+  compress
+  delaycompress
+  create 664 {{ prometheus_user }} {{ prometheus_group }}
+  postrotate
+        [ ! -f /var/run/prometheus.pid ] || systemd restart prometheus.service
+  endscript
+}

@@ -1,0 +1,6 @@
+---
+required_libs: []
+
+prometheus_release_name: "prometheus-{{ prometheus_version }}.{{ prometheus_release_system }}"
+prometheus_package: "prometheus-{{ prometheus_version }}.{{ prometheus_release_system }}.tar.gz"
+prometheus_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_package }}"

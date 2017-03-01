@@ -1,0 +1,8 @@
+---
+
+- name: PROMETHEUS | Configuring service
+  systemd:
+    name: prometheus
+    state: "{{ prometheus_service_state }}"
+    enabled: "{{ prometheus_service_enabled }}"
+    daemon_reload: yes

@@ -1,0 +1,25 @@
+global:
+  # How frequently to scrape targets by default.
+  # [ scrape_interval: <duration> | default = 1m ].
+  scrape_interval: {{ prometheus_scrape_interval }}
+
+  # How long until a scrape request times out.
+  # [ scrape_timeout: <duration> | default = 10s ]
+  scrape_timeout: {{ prometheus_scrape_timeout }}
+
+  # How frequently to evaluate rules.
+  # [ evaluation_interval: <duration> | default = 1m ]
+  evaluation_interval: {{ prometheus_evaluation_interval }}
+
+  # The labels to add to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  #[ <labelname>: <labelvalue> ... ]
+  external_labels:
+  {% for label in prometheus_external_labels %}
+    {{ label.name }}: {{ label.value }}
+  {% endfor %}
+
+rule_files:
+{% for template in prometheus_rules_templates %}
+  - {{ prometheus_conf_path }}/{{ template }}
+{% endfor %}

@@ -1,0 +1,85 @@
+---
+- name: PROMETHEUS | Installing dependencies
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items: "{{ required_libs }}"
+  tags:
+    skip_ansible_lint
+
+- name: PROMETHEUS | Ensure prometheus group
+  group:
+    name: "{{ prometheus_group }}"
+    system: yes
+    state: present
+
+- name: PROMETHEUS | Ensure prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    system: yes
+    shell: /sbin/nologin
+    createhome: no
+
+- name: PROMETHEUS | Ensure skeleton paths
+  file:
+    dest: "{{ item }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    state: directory
+  with_items:
+    - "{{ prometheus_root_path }}"
+    - "{{ prometheus_bin_path }}"
+    - "{{ prometheus_conf_path }}"
+    - "{{ prometheus_conf_path }}/parts"
+    - "{{ prometheus_data_path }}"
+    - "{{ prometheus_log_path }}"
+
+- name: PROMETHEUS | Check prometheus version
+  command: prometheus --version
+  register: prometheus_check
+  changed_when: false
+  ignore_errors: true
+
+- name: PROMETHEUS | Download package
+  get_url:
+    url: "{{ prometheus_url }}"
+    dest: /tmp
+  when: 'prometheus_force_reinstall or prometheus_check|failed or "prometheus, version {{ prometheus_version }}" not in prometheus_check.stderr'
+
+- name: PROMETHEUS | Extract package
+  unarchive:
+    copy: no
+    src: "/tmp/{{ prometheus_package }}"
+    dest: /tmp
+  when: 'prometheus_force_reinstall or prometheus_check|failed or "prometheus, version {{ prometheus_version }}" not in prometheus_check.stderr'
+
+- name: PROMETHEUS | Copy binary
+  copy:
+    src: "/tmp/{{ prometheus_release_name }}/{{ item }}"
+    dest: "{{ prometheus_bin_path }}/{{ item }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    remote_src: True
+    mode: 0755
+  with_items:
+    - prometheus
+    - promtool
+  when: 'prometheus_force_reinstall or prometheus_check|failed or "prometheus, version {{ prometheus_version }}" not in prometheus_check.stderr'
+  notify: restart prometheus
+
+- name: PROMETHEUS | Link binary
+  file:
+    src: "{{ prometheus_bin_path }}/{{ item }}"
+    dest: "/usr/bin/{{ item }}"
+    state: link
+  with_items:
+    - prometheus
+    - promtool
+
+- name: PROMETHEUS | Copy Daemon script
+  template:
+    src: prometheus.service.j2
+    dest: /lib/systemd/system/prometheus.service
+    mode: 0644
+  notify: restart prometheus

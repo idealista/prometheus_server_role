@@ -1,0 +1,80 @@
+---
+## General
+
+prometheus_version: 1.5.2
+prometheus_release_system: linux-amd64
+
+# Set true to force the download and installation of the binary
+prometheus_force_reinstall: false
+
+## Service options
+
+# Owner
+prometheus_user: prometheus
+prometheus_group: prometheus
+
+# start on boot
+prometheus_service_enabled: True
+# current state: started, stopped
+prometheus_service_state: started
+
+# Files & Paths
+prometheus_log_file: "prometheus.log"
+prometheus_root_path: /opt/prometheus
+prometheus_bin_path: "{{ prometheus_root_path }}/bin"
+prometheus_conf_path: "/etc/prometheus"
+prometheus_data_path: "{{ prometheus_root_path }}/data"
+prometheus_log_path: "/var/log/prometheus"
+prometheus_config_parts_path: "{{ playbook_dir }}/files/prometheus/config"
+prometheus_rules_templates_path: "{{ playbook_dir }}/templates/prometheus/rules"
+
+# Rules
+prometheus_rules_templates: []
+
+# Port & host
+prometheus_port: 9090
+prometheus_external_hostname: "{{ ansible_nodename }}"
+
+prometheus_enable_remote_shutdown: 'false'
+
+# ALERTMANAGER
+prometheus_alertmanager_host: localhost
+prometheus_alertmanager_port: 9093
+
+# STORAGE
+prometheus_storage_local_memory_chunks: 262144
+prometheus_storage_max_chunks_to_persist: 131072
+prometheus_storage_retention: 180h0m0s
+prometheus_storage_retention_local_series_file_shrink_ratio: 0.03
+
+# SCRAPE_CONFIG
+prometheus_scrape_interval: 1m
+prometheus_scrape_timeout: 10s
+prometheus_evaluation_interval: 1m
+prometheus_external_labels: []
+
+prometheus_options:
+  - "alertmanager.url=http://{{ prometheus_alertmanager_host }}:{{ prometheus_alertmanager_port }}"
+  - "storage.local.memory-chunks={{ prometheus_storage_local_memory_chunks }}"
+  - "storage.local.max-chunks-to-persist={{ prometheus_storage_max_chunks_to_persist }}"
+  - "storage.local.retention={{ prometheus_storage_retention }}"
+  - "storage.local.series-file-shrink-ratio={{ prometheus_storage_retention_local_series_file_shrink_ratio }}"
+  - "storage.local.path={{ prometheus_data_path }}"
+  - "web.external-url=http://{{ prometheus_external_hostname }}:{{ prometheus_port }}/"
+  - "web.enable-remote-shutdown={{ prometheus_enable_remote_shutdown }}"
+  - "config.file={{ prometheus_conf_path }}/prometheus.yml"
+
+default_app:
+  server: 'default'
+  services:
+    - 9100
+    - 9110
+  inventory:
+    pro:
+      es: 0
+      it: 0
+      pt: 0
+    pre:
+      es: 0
+      it: 0
+      pt: 0
