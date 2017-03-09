@@ -1,0 +1,13 @@
+server: 'default'
+services:
+  - 9100
+  - 9110
+inventory:
+  pro:
+    es: 0
+    it: 0
+    pt: 0
+  pre:
+    es: 0
+    it: 0
+    pt: 0

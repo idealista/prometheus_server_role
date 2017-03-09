@@ -23,13 +23,14 @@ prometheus_log_file: "prometheus.log"
 prometheus_root_path: /opt/prometheus
 prometheus_bin_path: "{{ prometheus_root_path }}/bin"
 prometheus_conf_path: "/etc/prometheus"
+prometheus_rules_path: "{{ prometheus_conf_path }}/rules"
 prometheus_data_path: "{{ prometheus_root_path }}/data"
 prometheus_log_path: "/var/log/prometheus"
-prometheus_config_parts_path: "{{ playbook_dir }}/files/prometheus/config"
+prometheus_config_scrapes_files_path: "{{ playbook_dir }}/files/prometheus/config/scrapes"
+prometheus_config_scrapes_templates_path: "{{ playbook_dir }}/templates/prometheus/config/scrapes"
+prometheus_config_vars_templates_path: "{{ playbook_dir }}/templates/prometheus/config/vars"
+prometheus_rules_files_path: "{{ playbook_dir }}/files/prometheus/rules"
 prometheus_rules_templates_path: "{{ playbook_dir }}/templates/prometheus/rules"
-
-# Rules
-prometheus_rules_templates: []
 
 # Port & host
 prometheus_port: 9090

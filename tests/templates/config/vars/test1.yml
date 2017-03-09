@@ -1,0 +1,15 @@
+name: test1
+server: test1_server
+services:
+    - 9100
+    - 8081
+    - 9145
+inventory:
+  pro:
+    es: 4
+    it: 4
+    pt: 2
+  pre:
+    es: 1
+    it: 1
+    pt: 1

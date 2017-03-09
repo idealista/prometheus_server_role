@@ -1,0 +1,6 @@
+# It's important to leave two spaces before '- job_name:'
+  - job_name: '{{ test3.get("server", test3.name) }}'
+    metrics_path: /prometheus
+    static_configs:
+      - targets:
+        - {{ test3.name }}:8080

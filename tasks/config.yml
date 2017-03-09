@@ -1,5 +1,42 @@
 ---
 
+- name: PROMETHEUS | Copy rules
+  template:
+    src: "{{ item }}"
+    dest: "{{ prometheus_conf_path }}/rules/{{ item | basename}}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: 0640
+  with_fileglob:
+    - "{{ prometheus_rules_templates_path }}/*"
+  notify:
+    - reload prometheus
+
+- name: PROMETHEUS | Set rules loaded var
+  find:
+    paths: "{{ prometheus_rules_templates_path }}"
+    file_type: file
+  delegate_to: localhost
+  become: no
+  register: rules_loaded
+
+- name: PROMETHEUS | Set rules templates var
+  set_fact:
+    prometheus_rules_templates:  "{{ rules_loaded.files | map(attribute='path') | map('basename') | list }}"
+
+- name: PROMETHEUS | List all rules in path
+  find:
+    paths: "{{ prometheus_conf_path }}/rules"
+    file_type: file
+  register: all_rules
+
+- name: PROMETHEUS | Remove old rules
+  file:
+    path: "{{ prometheus_conf_path }}/rules/{{ item }}"
+    state: absent
+  with_items:
+    - "{{ all_rules.files | map(attribute='path') | map('basename') | list | difference(prometheus_rules_templates) }}"
+
 - name: PROMETHEUS | Copy server config (global)
   template:
     src: "{{ item }}.j2"
@@ -10,31 +47,47 @@
   with_items:
     - "1_global_prometheus"
 
-- name: PROMETHEUS | Copy server config (other parts)
+- name: PROMETHEUS | Load scrape vars
+  include_vars:
+    file: "{{ item }}"
+    name: "{{ item | basename | splitext | first }}"
+  with_fileglob:
+    - "{{ prometheus_config_vars_templates_path }}/*"
+
+- name: PROMETHEUS | Copy scrapes
   template:
     src: "{{ item }}"
-    dest: "{{prometheus_conf_path}}/parts/{{ item | basename }}"
+    dest: "{{prometheus_conf_path}}/parts/{{ item | basename | splitext | first }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
   with_fileglob:
-    - "{{ prometheus_config_parts_path }}/*"
+    - "{{ prometheus_config_scrapes_templates_path }}/*"
 
-- name: PROMETHEUS | Checking for parts...
+- name: PROMETHEUS | Set scrapes loaded var
   find:
-    paths: "{{prometheus_conf_path}}/parts"
-  register: check_parts
+    paths: "{{ prometheus_config_scrapes_templates_path }}"
+    file_type: file
+  delegate_to: localhost
+  become: no
+  register: scrapes_loaded
 
-- name: PROMETHEUS | Copy default parts
-  template:
-    src: "{{ item }}"
-    dest: "{{prometheus_conf_path}}/parts/{{ item }}"
-    owner: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
-    mode: 0640
+- name: PROMETHEUS | Set scrapes templates var
+  set_fact:
+    prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | list | union(['1_global_prometheus']) }}"
+
+- name: PROMETHEUS | List all scrapes in path
+  find:
+    paths: "{{ prometheus_conf_path }}/parts"
+    file_type: file
+  register: all_scrapes
+
+- name: PROMETHEUS | Remove old scrapes
+  file:
+    path: "{{ prometheus_conf_path }}/parts/{{ item }}"
+    state: absent
   with_items:
-    - 2_scrape_configs
-  when: check_parts.files <= 1
+    - "{{ all_scrapes.files | map(attribute='path') |  map('basename') | map('splitext') | map('first') | list | difference(prometheus_scrapes_templates) }}"
 
 - name: PROMETHEUS | Join config parts
   assemble:
@@ -47,18 +100,6 @@
     delimiter: '\n'
   notify:
     - restart prometheus
-
-- name: PROMETHEUS | Copy rules
-  template:
-    src: "{{prometheus_rules_templates_path}}/{{ item }}"
-    dest: "{{ prometheus_conf_path }}/{{ item }}"
-    owner: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
-    mode: 0640
-  with_items:
-    - "{{ prometheus_rules_templates }}"
-  notify:
-    - reload prometheus
 
 - name: PROMETHEUS | Copy logrotate config
   template:

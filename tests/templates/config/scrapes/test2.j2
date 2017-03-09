@@ -1,10 +1,5 @@
-scrape_configs:
-  - job_name: 'prometheus_statistics'
-    static_configs:
-      - targets:
-        - {{ ansible_nodename }}:9090
-{% for app in apps %}
-
+# It's important to leave two spaces before '- job_name:'
+{% for app in test2.apps %}
   - job_name: '{{ app.get("server", app.name) }}'
     static_configs:
       - targets:
@@ -16,16 +11,16 @@ scrape_configs:
 {% if machines is defined and machines > 0 %}
 {% for n in range(1, machines + 1) %}
 {% if env == "int" %}
-        - {{ app.name }}{{ n }}.{{ env }}.sys.idealista:{{ service }}
+        - {{ app.name }}{{ n }}.{{ env }}:{{ service }}
 {% else %}
-        - {{ app.name }}{{ n }}.{{ env }}.{{ country }}.sys.idealista:{{ service }}
+        - {{ app.name }}{{ n }}.{{ env }}.{{ country }}:{{ service }}
 {% endif %}
 {% endfor %}
 {% else %}
 {% if env == "int" %}
-        - {{ app.name }}.{{ env }}.sys.idealista:{{ service }}
+        - {{ app.name }}.{{ env }}:{{ service }}
 {% else %}
-        - {{ app.name }}.{{ env }}.{{ country }}.sys.idealista:{{ service }}
+        - {{ app.name }}.{{ env }}.{{ country }}:{{ service }}
 {% endif %}
 {% endif %}
 {% endfor %}
