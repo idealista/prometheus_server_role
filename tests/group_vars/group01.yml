@@ -1,37 +1,5 @@
 prometheus_port: 9090
 
-prometheus_config_parts_path: "{{ playbook_dir }}/templates/config"
+prometheus_config_scrapes_templates_path: "{{ playbook_dir }}/templates/config/scrapes"
+prometheus_config_vars_templates_path: "{{ playbook_dir }}/templates/config/vars"
 prometheus_rules_templates_path: "{{ playbook_dir }}/templates/rules"
-prometheus_rules_templates:
-  - node.rules
-
-## SCRAPE_CONFIG
-
-default_app:
-  server: 'default'
-  services:
-    - 9100
-    - 9110
-  inventory:
-    pro:
-      es: 0
-      it: 0
-      pt: 0
-    pre:
-      es: 0
-      it: 0
-      pt: 0
-
-apps:
-  - name: accounts
-  - name: backendtool
-  - name: callcenter
-  - name: fichacliente
-  - name: featuretoggle-api
-    server: featuretoggleapi
-    services:
-      - 9100
-      - 9145
-    inventory:
-      int:
-        all: 2

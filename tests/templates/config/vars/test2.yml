@@ -1,0 +1,13 @@
+apps:
+  - name: accounts
+  - name: backendtool
+  - name: callcenter
+  - name: fichacliente
+  - name: featuretoggle-api
+    server: featuretoggleapi
+    services:
+      - 9100
+      - 9145
+    inventory:
+      int:
+        all: 2

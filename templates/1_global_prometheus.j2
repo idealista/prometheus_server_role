@@ -21,5 +21,19 @@ global:
 
 rule_files:
 {% for template in prometheus_rules_templates %}
-  - {{ prometheus_conf_path }}/{{ template }}
+  - {{ prometheus_conf_path }}/rules/{{ template }}
 {% endfor %}
+
+scrape_configs:
+  - job_name: 'prometheus_statistics'
+    static_configs:
+      - targets:
+        - {{ ansible_nodename }}:9090
+
+{% if grafana_host is defined %}
+  - job_name: 'grafana'
+    static_configs:
+      - targets:
+        - {{ grafana_host }}:9100
+
+{% endif %}

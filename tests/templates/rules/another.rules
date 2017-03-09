@@ -1,0 +1,13 @@
+{% raw %}
+# Alert for disk fullness warning
+ALERT test
+  IF abc > 1
+  FOR 15m
+  LABELS {
+    severity="severe"
+  }
+  ANNOTATIONS {
+    summary = "Alert on {{ $labels.instance }}",
+    description = "alert",
+  }
+{% endraw %}

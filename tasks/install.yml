@@ -32,6 +32,7 @@
     - "{{ prometheus_bin_path }}"
     - "{{ prometheus_conf_path }}"
     - "{{ prometheus_conf_path }}/parts"
+    - "{{ prometheus_conf_path }}/rules"
     - "{{ prometheus_data_path }}"
     - "{{ prometheus_log_path }}"
 
