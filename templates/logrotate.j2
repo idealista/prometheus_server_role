@@ -9,6 +9,6 @@
   delaycompress
   create 664 {{ prometheus_user }} {{ prometheus_group }}
   postrotate
-        [ ! -f /var/run/prometheus.pid ] || systemd restart prometheus.service
+        [ ! -f /run/prometheus.pid ] || systemctl restart prometheus.service
   endscript
 }
