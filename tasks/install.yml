@@ -45,7 +45,7 @@
 - name: PROMETHEUS | Download package
   get_url:
     url: "{{ prometheus_url }}"
-    dest: /tmp
+    dest: "/tmp/{{ prometheus_package }}"
   when: 'prometheus_force_reinstall or prometheus_check|failed or "prometheus, version {{ prometheus_version }}" not in prometheus_check.stderr'
 
 - name: PROMETHEUS | Extract package
