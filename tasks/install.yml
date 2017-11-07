@@ -46,14 +46,14 @@
   get_url:
     url: "{{ prometheus_url }}"
     dest: "/tmp/{{ prometheus_package }}"
-  when: 'prometheus_force_reinstall or prometheus_check|failed or "prometheus, version {{ prometheus_version }}" not in prometheus_check.stderr'
+  when: prometheus_force_reinstall or prometheus_check|failed or prometheus_check.stdout is not search('prometheus, version ' + prometheus_version)
 
 - name: PROMETHEUS | Extract package
   unarchive:
     copy: no
     src: "/tmp/{{ prometheus_package }}"
     dest: /tmp
-  when: 'prometheus_force_reinstall or prometheus_check|failed or "prometheus, version {{ prometheus_version }}" not in prometheus_check.stderr'
+  when: prometheus_force_reinstall or prometheus_check|failed or prometheus_check.stdout is not search('prometheus, version ' + prometheus_version)
 
 - name: PROMETHEUS | Copy binary
   copy:
@@ -66,7 +66,7 @@
   with_items:
     - prometheus
     - promtool
-  when: 'prometheus_force_reinstall or prometheus_check|failed or "prometheus, version {{ prometheus_version }}" not in prometheus_check.stderr'
+  when: prometheus_force_reinstall or prometheus_check|failed or prometheus_check.stdout is not search('prometheus, version ' + prometheus_version)
   notify: restart prometheus
 
 - name: PROMETHEUS | Link binary

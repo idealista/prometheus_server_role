@@ -1,13 +1,12 @@
 apps:
-  - name: accounts
-  - name: backendtool
-  - name: callcenter
-  - name: fichacliente
-  - name: featuretoggle-api
-    server: featuretoggleapi
+  - name: x
+  - name: y
+  - name: z
+  - name: t
+    server: tt
     services:
       - 9100
       - 9145
     inventory:
-      int:
-        all: 2
+      a:
+        aa: 2
