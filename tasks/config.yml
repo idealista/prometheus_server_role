@@ -27,7 +27,7 @@
     path: "{{ prometheus_conf_path }}/rules"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
-    mode: 0750
+    mode: 0755
     recurse: yes
   notify:
     - reload prometheus

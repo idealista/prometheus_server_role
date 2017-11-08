@@ -79,6 +79,7 @@ docker:
         - SYS_ADMIN
       volume_mounts:
         - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+        - '/tmp:/tmp:rw'
       command: '/lib/systemd/systemd'
     - name: prometheus2.vm
       hostname: prometheus2.vm
@@ -93,6 +94,7 @@ docker:
         - SYS_ADMIN
       volume_mounts:
         - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+        - '/tmp:/tmp:rw'
       command: '/lib/systemd/systemd'
 
 verifier:
