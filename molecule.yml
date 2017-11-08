@@ -84,7 +84,7 @@ docker:
     - name: prometheus2.vm
       hostname: prometheus2.vm
       ansible_groups:
-        - group01
+        - group02
       dockerfile: tests/Dockerfile
       image: debian9-ansible
       image_version: latest
