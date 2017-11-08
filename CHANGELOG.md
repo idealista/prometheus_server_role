@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ## [Unreleased](https://github.com/idealista-tech/prometheus_server-role/tree/develop)
 
 ### Added
+- *[#3](https://github.com/idealista/prometheus_server-role/issues/3) Include CI and contribution files* @jmonterrubio
 - *[#2](https://github.com/idealista/prometheus_server-role/issues/2) Enable command-line flags by configuration file* @jmonterrubio
 
 ## [1.1.0](https://github.com/idealista-tech/prometheus_server-role/tree/1.1.0)
