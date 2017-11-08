@@ -27,7 +27,7 @@
     path: "{{ prometheus_conf_path }}/rules"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
-    mode: 0640
+    mode: 0750
     recurse: yes
   notify:
     - reload prometheus
@@ -64,7 +64,7 @@
 - name: PROMETHEUS | Copy scrapes
   template:
     src: "{{ item }}"
-    dest: "{{prometheus_conf_path}}/parts/{{ item | basename | splitext | first }}"
+    dest: "{{prometheus_conf_path}}/parts/2_{{ item | basename | splitext | first }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -81,7 +81,10 @@
 
 - name: PROMETHEUS | Set scrapes templates var
   set_fact:
-    prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | list | union(['1_global_prometheus']) }}"
+    prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | map('regex_replace', '(.*)', '2_\\1') |  list | union(['1_global_prometheus']) }}"
+
+- debug:
+    var: prometheus_scrapes_templates
 
 - name: PROMETHEUS | List all scrapes in path
   find:

@@ -24,6 +24,14 @@ rule_files:
   - {{ prometheus_conf_path }}/rules/{{ template }}
 {% endfor %}
 
+{% if prometheus_version.startswith('2') %}
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - {{ prometheus_alertmanager_host }}:{{ prometheus_alertmanager_port }}
+{% endif %}
+
 scrape_configs:
   - job_name: 'prometheus_statistics'
     static_configs:

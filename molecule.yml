@@ -28,6 +28,7 @@ molecule:
 # ansible related configuration
 ansible:
   playbook: tests/playbook.yml
+  #verbose: True
 
 # configuration options for the internal call to vagrant
 vagrant:
@@ -55,11 +56,32 @@ vagrant:
         - network_name: private_network
           type: dhcp
           auto_config: true
+    - name: prometheus2.vm
+      ansible_groups:
+        - group02
+      interfaces:
+        - network_name: private_network
+          type: dhcp
+          auto_config: true
 
 docker:
   containers:
     - name: prometheus.vm
       hostname: prometheus.vm
+      ansible_groups:
+        - group01
+      dockerfile: tests/Dockerfile
+      image: debian9-ansible
+      image_version: latest
+      # All these parameters are needed for Docker testing with systemd
+      privileged: True
+      cap_add:
+        - SYS_ADMIN
+      volume_mounts:
+        - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+      command: '/lib/systemd/systemd'
+    - name: prometheus2.vm
+      hostname: prometheus2.vm
       ansible_groups:
         - group01
       dockerfile: tests/Dockerfile
