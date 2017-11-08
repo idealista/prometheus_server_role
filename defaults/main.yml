@@ -1,7 +1,7 @@
 ---
 ## General
 
-prometheus_version: 1.5.2
+prometheus_version: 1.8.2
 prometheus_release_system: linux-amd64
 
 # Set true to force the download and installation of the binary
@@ -43,8 +43,7 @@ prometheus_alertmanager_host: localhost
 prometheus_alertmanager_port: 9093
 
 # STORAGE
-prometheus_storage_local_memory_chunks: 262144
-prometheus_storage_max_chunks_to_persist: 131072
+prometheus_storage_local_target_heap_size: 5368709120
 prometheus_storage_retention: 180h0m0s
 prometheus_storage_retention_local_series_file_shrink_ratio: 0.03
 
@@ -54,16 +53,17 @@ prometheus_scrape_timeout: 10s
 prometheus_evaluation_interval: 1m
 prometheus_external_labels: []
 
-prometheus_options:
+prometheus_general_options:
   - "alertmanager.url=http://{{ prometheus_alertmanager_host }}:{{ prometheus_alertmanager_port }}"
-  - "storage.local.memory-chunks={{ prometheus_storage_local_memory_chunks }}"
-  - "storage.local.max-chunks-to-persist={{ prometheus_storage_max_chunks_to_persist }}"
-  - "storage.local.retention={{ prometheus_storage_retention }}"
-  - "storage.local.series-file-shrink-ratio={{ prometheus_storage_retention_local_series_file_shrink_ratio }}"
-  - "storage.local.path={{ prometheus_data_path }}"
   - "web.external-url=http://{{ prometheus_external_hostname }}:{{ prometheus_port }}/"
   - "web.enable-remote-shutdown={{ prometheus_enable_remote_shutdown }}"
   - "config.file={{ prometheus_conf_path }}/prometheus.yml"
+
+prometheus_storage_options:
+  - "storage.local.target-heap-size={{ prometheus_storage_local_target_heap_size }}"
+  - "storage.local.retention={{ prometheus_storage_retention }}"
+  - "storage.local.series-file-shrink-ratio={{ prometheus_storage_retention_local_series_file_shrink_ratio }}"
+  - "storage.local.path={{ prometheus_data_path }}"
 
 default_app:
   server: 'default'

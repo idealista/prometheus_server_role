@@ -4,5 +4,5 @@ services:
   - 9100
   - 9145
 inventory:
-  int:
-    all: 2
+  a:
+    aa: 2

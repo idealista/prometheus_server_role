@@ -1,0 +1,7 @@
+{% if prometheus_general_options is defined %}
+PROMETHEUS_GENERAL_OPTIONS={% for option in prometheus_general_options %}-{{ option }}{% if not loop.last %} {% endif %}{% endfor %}
+{% endif%}
+
+{% if prometheus_storage_options is defined %}
+PROMETHEUS_STORAGE_OPTIONS={% for option in prometheus_storage_options %}-{{ option }}{% if not loop.last %} {% endif %}{% endfor %}
+{% endif%}
