@@ -9,28 +9,42 @@
     mode: 0640
   notify: restart prometheus
 
-- name: PROMETHEUS | Sync rules
-  synchronize:
-    src: "{{ prometheus_rules_templates_path }}/"
-    dest: "{{ prometheus_conf_path }}/rules/"
-    perms: no
-    owner: no
-    group: no
-    delete: yes
-  become: true
-  become_user: "{{ prometheus_user }}"
+- name: PROMETHEUS | Copy rules
+  copy:
+    src: "{{ item }}"
+    dest: "{{ prometheus_conf_path }}/rules/{{ item | basename}}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: 0640
+  with_fileglob:
+    - "{{ prometheus_rules_templates_path }}/*"
   notify:
     - reload prometheus
 
-- name: PROMETHEUS | Update permissions for rules
+- name: PROMETHEUS | Set rules loaded var
+  find:
+    paths: "{{ prometheus_rules_templates_path }}"
+    file_type: file
+  delegate_to: localhost
+  become: no
+  register: rules_loaded
+
+- name: PROMETHEUS | Set rules templates var
+  set_fact:
+    prometheus_rules_templates:  "{{ rules_loaded.files | map(attribute='path') | map('basename') | list }}"
+
+- name: PROMETHEUS | List all rules in path
+  find:
+    paths: "{{ prometheus_conf_path }}/rules"
+    file_type: file
+  register: all_rules
+
+- name: PROMETHEUS | Remove old rules
   file:
-    path: "{{ prometheus_conf_path }}/rules"
-    owner: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
-    mode: 0755
-    recurse: yes
-  notify:
-    - reload prometheus
+    path: "{{ prometheus_conf_path }}/rules/{{ item }}"
+    state: absent
+  with_items:
+    - "{{ all_rules.files | map(attribute='path') | map('basename') | list | difference(prometheus_rules_templates) }}"
 
 - name: PROMETHEUS | Set rules loaded var
   find:
