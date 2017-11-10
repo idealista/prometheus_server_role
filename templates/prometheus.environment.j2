@@ -1,7 +1,17 @@
-{% if prometheus_general_options is defined %}
-PROMETHEUS_GENERAL_OPTIONS={% for option in prometheus_general_options %}-{{ option }}{% if not loop.last %} {% endif %}{% endfor %}
+{% if prometheus_version.startswith('2') %}
+{% set option_bullet = '--' %}
+{% set general_options = prometheus_general_options %}
+{% set storage_options = prometheus_storage_options %}
+{% else %}
+{% set option_bullet = '-' %}
+{% set general_options = prometheus_general_options_deprecated %}
+{% set storage_options = prometheus_storage_options_deprecated %}
 {% endif%}
 
-{% if prometheus_storage_options is defined %}
-PROMETHEUS_STORAGE_OPTIONS={% for option in prometheus_storage_options %}-{{ option }}{% if not loop.last %} {% endif %}{% endfor %}
+{% if general_options is defined %}
+PROMETHEUS_GENERAL_OPTIONS={% for option in general_options %}{{ option_bullet }}{{ option }}{% if not loop.last %} {% endif %}{% endfor %}
+{% endif%}
+
+{% if storage_options is defined %}
+PROMETHEUS_STORAGE_OPTIONS={% for option in storage_options %}{{ option_bullet }}{{ option }}{% if not loop.last %} {% endif %}{% endfor %}
 {% endif%}
