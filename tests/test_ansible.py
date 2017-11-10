@@ -11,6 +11,16 @@ def AnsibleVars(Ansible):
     return Ansible("include_vars", "tests/group_vars/group01.yml")["ansible_facts"]
 
 
+@pytest.fixture()
+def AnsibleVars2(Ansible):
+    return Ansible("include_vars", "tests/group_vars/group02.yml")["ansible_facts"]
+
+
+@pytest.fixture()
+def Hostname(TestinfraBackend):
+    return TestinfraBackend.get_hostname()
+
+
 def test_prometheus_user(User, Group, AnsibleDefaults):
     assert User(AnsibleDefaults["prometheus_user"]).exists
     assert Group(AnsibleDefaults["prometheus_group"]).exists
@@ -41,7 +51,7 @@ def test_prometheus_log(File, User, Group, AnsibleDefaults):
     assert conf_path.group == AnsibleDefaults["prometheus_group"]
 
 
-def test_prometheus_bin(File, Command, AnsibleDefaults):
+def test_prometheus_bin(File, Command, AnsibleDefaults, AnsibleVars, AnsibleVars2, Hostname):
     am = File(AnsibleDefaults["prometheus_bin_path"] + "/prometheus")
     am_link = File("/usr/bin/prometheus")
     assert am.exists
@@ -54,12 +64,17 @@ def test_prometheus_bin(File, Command, AnsibleDefaults):
     assert am_link.group == "root"
     am_version = Command("prometheus --version")
     assert am_version.rc is 0
-    assert "prometheus, version " + AnsibleDefaults["prometheus_version"] in am_version.stdout
+    if Hostname == "prometheus.vm":
+        assert "prometheus, version " + AnsibleVars["prometheus_version"] in am_version.stdout
+    if Hostname == "prometheus2.vm":
+        assert "prometheus, version " + AnsibleVars2["prometheus_version"] in am_version.stderr
 
 
-def test_prometheus_service(File, Service, Socket, AnsibleVars):
-    port = AnsibleVars["prometheus_port"]
+def test_prometheus_service(File, Service, Socket, AnsibleVars, AnsibleVars2, Hostname):
     assert File("/lib/systemd/system/prometheus.service").exists
     assert Service("prometheus").is_enabled
     assert Service("prometheus").is_running
-    assert Socket("tcp://:::" + str(port)).is_listening
+    if Hostname == "prometheus.vm":
+        assert Socket("tcp://:::" + str(AnsibleVars["prometheus_port"])).is_listening
+    if Hostname == "prometheus2.vm":
+        assert Socket("tcp://:::" + str(AnsibleVars2["prometheus_port"])).is_listening

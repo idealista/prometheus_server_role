@@ -10,7 +10,7 @@
   notify: restart prometheus
 
 - name: PROMETHEUS | Copy rules
-  template:
+  copy:
     src: "{{ item }}"
     dest: "{{ prometheus_conf_path }}/rules/{{ item | basename}}"
     owner: "{{ prometheus_user }}"
@@ -46,6 +46,18 @@
   with_items:
     - "{{ all_rules.files | map(attribute='path') | map('basename') | list | difference(prometheus_rules_templates) }}"
 
+- name: PROMETHEUS | Set rules loaded var
+  find:
+    paths: "{{ prometheus_rules_templates_path }}"
+    file_type: file
+  delegate_to: localhost
+  become: no
+  register: rules_loaded
+
+- name: PROMETHEUS | Set rules templates var
+  set_fact:
+    prometheus_rules_templates:  "{{ rules_loaded.files | map(attribute='path') | map('basename') | list }}"
+
 - name: PROMETHEUS | Copy server config (global)
   template:
     src: "{{ item }}.j2"
@@ -66,7 +78,7 @@
 - name: PROMETHEUS | Copy scrapes
   template:
     src: "{{ item }}"
-    dest: "{{prometheus_conf_path}}/parts/{{ item | basename | splitext | first }}"
+    dest: "{{prometheus_conf_path}}/parts/2_{{ item | basename | splitext | first }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -83,7 +95,10 @@
 
 - name: PROMETHEUS | Set scrapes templates var
   set_fact:
-    prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | list | union(['1_global_prometheus']) }}"
+    prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | map('regex_replace', '(.*)', '2_\\1') |  list | union(['1_global_prometheus']) }}"
+
+- debug:
+    var: prometheus_scrapes_templates
 
 - name: PROMETHEUS | List all scrapes in path
   find:

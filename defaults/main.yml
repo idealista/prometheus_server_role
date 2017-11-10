@@ -43,6 +43,8 @@ prometheus_alertmanager_host: localhost
 prometheus_alertmanager_port: 9093
 
 # STORAGE
+prometheus_storage_tsdb_retention: 15d
+## DEPRECATED
 prometheus_storage_local_target_heap_size: 5368709120
 prometheus_storage_retention: 180h0m0s
 prometheus_storage_retention_local_series_file_shrink_ratio: 0.03
@@ -54,12 +56,22 @@ prometheus_evaluation_interval: 1m
 prometheus_external_labels: []
 
 prometheus_general_options:
+  - "web.external-url=http://{{ prometheus_external_hostname }}:{{ prometheus_port }}/"
+  - "web.enable-lifecycle"
+  - "config.file={{ prometheus_conf_path }}/prometheus.yml"
+
+prometheus_storage_options:
+  - "storage.tsdb.path={{ prometheus_data_path }}"
+  - "storage.tsdb.retention={{ prometheus_storage_tsdb_retention }}"
+
+## DEPRECATED
+prometheus_general_options_deprecated:
   - "alertmanager.url=http://{{ prometheus_alertmanager_host }}:{{ prometheus_alertmanager_port }}"
   - "web.external-url=http://{{ prometheus_external_hostname }}:{{ prometheus_port }}/"
   - "web.enable-remote-shutdown={{ prometheus_enable_remote_shutdown }}"
   - "config.file={{ prometheus_conf_path }}/prometheus.yml"
 
-prometheus_storage_options:
+prometheus_storage_options_deprecated:
   - "storage.local.target-heap-size={{ prometheus_storage_local_target_heap_size }}"
   - "storage.local.retention={{ prometheus_storage_retention }}"
   - "storage.local.series-file-shrink-ratio={{ prometheus_storage_retention_local_series_file_shrink_ratio }}"

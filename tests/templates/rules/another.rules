@@ -1,4 +1,3 @@
-{% raw %}
 # Alert for disk fullness warning
 ALERT test
   IF abc > 1
@@ -10,4 +9,3 @@ ALERT test
     summary = "Alert on {{ $labels.instance }}",
     description = "alert",
   }
-{% endraw %}
