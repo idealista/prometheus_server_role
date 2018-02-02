@@ -4,8 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/prometheus_server-role/tree/develop)
 
+## [1.3.1](https://github.com/idealista/prometheus_server-role/tree/1.3.1)
+[Full Changelog](https://github.com/idealista/prometheus_server-role/compare/1.3.0...1.3.1)
+### Fixed
+- *[#11](https://github.com/idealista/prometheus_server-role/issues/11) Fix reload handler failure due to Prometheus restart* @jnogol
+
 ## [1.3.0](https://github.com/idealista/prometheus_server-role/tree/1.3.0)
 [Full Changelog](https://github.com/idealista/prometheus_server-role/compare/1.2.0...1.3.0)
+### Added
 - *[#7](https://github.com/idealista/prometheus_server-role/issues/7) Support prometheus version 2* @jmonterrubio
 
 ## [1.2.0](https://github.com/idealista/prometheus_server-role/tree/1.2.0)

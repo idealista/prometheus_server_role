@@ -1,10 +1,10 @@
 ---
-- name: restart prometheus
-  systemd:
-    name: prometheus
-    state: restarted
-
 - name: reload prometheus
   uri:
     url: "http://localhost:{{ prometheus_port }}/-/reload"
     method: "POST"
+
+- name: restart prometheus
+  systemd:
+    name: prometheus
+    state: restarted
