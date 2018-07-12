@@ -32,6 +32,12 @@ prometheus_config_vars_templates_path: "{{ playbook_dir }}/templates/prometheus/
 prometheus_rules_files_path: "{{ playbook_dir }}/files/prometheus/rules"
 prometheus_rules_templates_path: "{{ playbook_dir }}/templates/prometheus/rules"
 
+# Configuration templates
+prometheus_service_template_path: prometheus.service.j2
+prometheus_environment_template_path: prometheus.environment.j2
+prometheus_global_config_template_path: 1_global_prometheus.j2
+prometheus_logrotate_template_path: logrotate.j2
+
 # Port & host
 prometheus_port: 9090
 prometheus_external_hostname: "{{ ansible_nodename }}"

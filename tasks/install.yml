@@ -4,8 +4,6 @@
     pkg: "{{ item }}"
     state: present
   with_items: "{{ required_libs }}"
-  tags:
-    skip_ansible_lint
 
 - name: PROMETHEUS | Ensure prometheus group
   group:
@@ -86,7 +84,7 @@
 
 - name: PROMETHEUS | Copy Daemon script
   template:
-    src: prometheus.service.j2
+    src: "{{ prometheus_service_template_path }}"
     dest: /lib/systemd/system/prometheus.service
     mode: 0644
   notify: restart prometheus
