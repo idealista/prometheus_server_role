@@ -2,7 +2,7 @@
 
 - name: PROMETHEUS | Copy environment file
   template:
-    src: prometheus.environment.j2
+    src: "{{ prometheus_environment_template_path }}"
     dest: /etc/default/prometheus
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
@@ -60,13 +60,11 @@
 
 - name: PROMETHEUS | Copy server config (global)
   template:
-    src: "{{ item }}.j2"
-    dest: "{{prometheus_conf_path}}/parts/{{ item }}"
+    src: "{{ prometheus_global_config_template_path }}"
+    dest: "{{prometheus_conf_path}}/parts/1_global_prometheus"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
-  with_items:
-    - "1_global_prometheus"
 
 - name: PROMETHEUS | Load scrape vars
   include_vars:
@@ -97,9 +95,6 @@
   set_fact:
     prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | map('regex_replace', '(.*)', '2_\\1') |  list | union(['1_global_prometheus']) }}"
 
-- debug:
-    var: prometheus_scrapes_templates
-
 - name: PROMETHEUS | List all scrapes in path
   find:
     paths: "{{ prometheus_conf_path }}/parts"
@@ -127,7 +122,7 @@
 
 - name: PROMETHEUS | Copy logrotate config
   template:
-    src: logrotate.j2
+    src: "{{ prometheus_logrotate_template_path }}"
     dest: /etc/logrotate.d/prometheus
     mode: 0644
     owner: root
