@@ -93,7 +93,7 @@
 
 - name: PROMETHEUS | Set scrapes templates var
   set_fact:
-    prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | map('regex_replace', '(.*)', '2_\\1') |  list | union(['1_global_prometheus']) }}"
+    prometheus_scrapes_templates:  "{{ scrapes_loaded.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | map('regex_replace', '^(.*)$', '2_\\1') |  list | union(['1_global_prometheus']) }}"
 
 - name: PROMETHEUS | List all scrapes in path
   find:
