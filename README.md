@@ -60,7 +60,7 @@ Look to the [defaults](defaults/main.yml) properties file to see the possible co
 ## Testing
 
 ```
-$ pipenv install -r test-requirements.txt -python 2.7
+$ pipenv install -r test-requirements.txt --python 2.7
 
 $ pipenv run molecule test --driver=docker
 ```
