@@ -13,6 +13,8 @@ ExecStartPost=/bin/sh -c "echo $MAINPID > /run/prometheus_server/prometheus_serv
 ExecReload=/bin/kill -HUP $MAINPID
 PIDFile=/run/prometheus_server/prometheus_server.pid
 KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target

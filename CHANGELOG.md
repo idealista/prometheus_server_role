@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ### Fixed
 - *Prevent configuration verification from deleting config files* @edwinkortman
 - *[#21](https://github.com/idealista/prometheus_server-role/issues/21) Don't overwrite log file after (re)start* @jnogol
+- *Add Restart on-failure policy on service file* @jnogol
 
 ## [1.4.0](https://github.com/idealista/prometheus_server-role/tree/1.4.0)
 [Full Changelog](https://github.com/idealista/prometheus_server-role/compare/1.3.1...1.4.0)
