@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a changelog](https://github.com/olivierlacan/keep-a-changelog).
 
 ## [Unreleased](https://github.com/idealista/prometheus_server-role/tree/develop)
+
+## [1.4.1](https://github.com/idealista/prometheus_server-role/tree/1.4.1)
+[Full Changelog](https://github.com/idealista/prometheus_server-role/compare/1.4.0...1.4.1)
 ### Fixed
 - *Prevent configuration verification from deleting config files* @edwinkortman
 - *[#21](https://github.com/idealista/prometheus_server-role/issues/21) Don't overwrite log file after (re)start* @jnogol
