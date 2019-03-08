@@ -8,11 +8,13 @@ User={{ prometheus_user }}
 Group={{ prometheus_group }}
 RuntimeDirectory=prometheus_server
 EnvironmentFile=/etc/default/prometheus
-ExecStart=/bin/sh -c "{{ prometheus_bin_path }}/prometheus ${PROMETHEUS_GENERAL_OPTIONS} ${PROMETHEUS_STORAGE_OPTIONS} > {{ prometheus_log_path }}/{{ prometheus_log_file }} 2>&1"
+ExecStart=/bin/sh -c "{{ prometheus_bin_path }}/prometheus ${PROMETHEUS_GENERAL_OPTIONS} ${PROMETHEUS_STORAGE_OPTIONS} >> {{ prometheus_log_path }}/{{ prometheus_log_file }} 2>&1"
 ExecStartPost=/bin/sh -c "echo $MAINPID > /run/prometheus_server/prometheus_server.pid"
 ExecReload=/bin/kill -HUP $MAINPID
 PIDFile=/run/prometheus_server/prometheus_server.pid
 KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
