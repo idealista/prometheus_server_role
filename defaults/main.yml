@@ -44,6 +44,9 @@ prometheus_external_hostname: "{{ ansible_nodename }}"
 
 prometheus_enable_remote_shutdown: 'false'
 
+# Handlers
+prometheus_reload_timeout: 60 # In seconds
+
 # ALERTMANAGER
 prometheus_alertmanager_host: localhost
 prometheus_alertmanager_port: 9093
