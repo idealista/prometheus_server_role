@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/prometheus_server-role/tree/develop)
 
+## [1.4.2](https://github.com/idealista/prometheus_server-role/tree/1.4.2)
+[Full Changelog](https://github.com/idealista/prometheus_server-role/compare/1.4.1...1.4.2)
+### Fixed
+- *[#24](https://github.com/idealista/prometheus_server-role/issues/24) Rise & parametrize timeout for `reload prometheus` handler to 60 seconds* @jnogol
+
 ## [1.4.1](https://github.com/idealista/prometheus_server-role/tree/1.4.1)
 [Full Changelog](https://github.com/idealista/prometheus_server-role/compare/1.4.0...1.4.1)
 ### Fixed
