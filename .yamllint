@@ -13,3 +13,4 @@ ignore: |
   .molecule/
   *vault*
   test_*yml
+  templates/

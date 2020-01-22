@@ -51,6 +51,6 @@ service:
     running: true
 
 http:
-  http://{{ ansible_nodename }}:9090/targets:
+  http://{{ ansible_nodename }}:{{ prometheus_port }}/targets:
     status: 200
 

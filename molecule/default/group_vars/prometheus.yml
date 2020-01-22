@@ -10,4 +10,3 @@ prometheus_log_path: "/var/log/prometheus"
 
 prometheus_user: prometheus
 prometheus_group: prometheus
-
