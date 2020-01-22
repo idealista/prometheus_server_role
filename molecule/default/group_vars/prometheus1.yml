@@ -1,0 +1,6 @@
+prometheus_version: 1.8.2
+prometheus_port: 9090
+
+prometheus_config_scrapes_templates_path: "{{ playbook_dir }}/templates/config/scrapes"
+prometheus_config_vars_templates_path: "{{ playbook_dir }}/templates/config/vars"
+prometheus_rules_templates_path: "{{ playbook_dir }}/templates/rules"

@@ -1,0 +1,15 @@
+name: test1
+server: test1_server
+services:
+    - 9100
+    - 8081
+    - 9145
+inventory:
+  a:
+    aa: 4
+    bb: 4
+    cc: 2
+  a:
+    aa: 1
+    bb: 1
+    cc: 1

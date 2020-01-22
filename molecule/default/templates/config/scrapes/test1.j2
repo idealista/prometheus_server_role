@@ -1,0 +1,27 @@
+# It's important to leave two spaces before '- job_name:'
+  - job_name: '{{ test1.get("server", test1.name) }}'
+    static_configs:
+      - targets:
+{% set inventory =  test1.get("inventory",  default.inventory) %}
+{% for env, countries in inventory.iteritems() %}
+{% for country, machines in countries.iteritems() %}
+{% set services =  test1.get("services",  default.services) %}
+{% for service in services %}
+{% if machines is defined and machines > 0 %}
+{% for n in range(1, machines + 1) %}
+{% if env == "int" %}
+        - {{ test1.name }}{{ n }}.{{ env }}:{{ service }}
+{% else %}
+        - {{ test1.name }}{{ n }}.{{ env }}.{{ country }}:{{ service }}
+{% endif %}
+{% endfor %}
+{% else %}
+{% if env == "int" %}
+        - {{ test1.name }}.{{ env }}:{{ service }}
+{% else %}
+        - {{ test1.name }}.{{ env }}.{{ country }}:{{ service }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}

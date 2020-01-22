@@ -1,0 +1,13 @@
+server: 'default'
+services:
+  - 9100
+  - 9110
+inventory:
+  a:
+    aa: 0
+    bb: 0
+    cc: 0
+  a:
+    aa: 0
+    bb: 0
+    cc: 0

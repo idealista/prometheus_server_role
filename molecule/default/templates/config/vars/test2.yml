@@ -1,0 +1,12 @@
+apps:
+  - name: x
+  - name: y
+  - name: z
+  - name: t
+    server: tt
+    services:
+      - 9100
+      - 9145
+    inventory:
+      a:
+        aa: 2

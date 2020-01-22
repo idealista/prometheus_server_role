@@ -1,0 +1,59 @@
+# Alert for disk fullness warning
+ALERT DiskSpace
+  IF round(100 - node_filesystem_free{instance=~".*.pro..*",device!~'^(nas.+|/dev/dm-.+|tmpfs)'} / node_filesystem_size{instance=~".*.pro..*",device!~'^(nas.+|/dev/dm-.+|tmpfs)'} * 100) > 90
+  FOR 15m
+  LABELS {
+    severity="severe"
+  }
+  ANNOTATIONS {
+    summary = "Disk usage alert on {{ $labels.instance }}",
+    description = "disk usage {{ $value }}% on {{ $labels.device }} device",
+  }
+
+# Alert for disk fullness critical
+ALERT DiskSpace
+  IF round(100 - node_filesystem_free{device!~'^(nas.+|/dev/dm-.+|tmpfs)'} / node_filesystem_size{device!~'^(nas.+|/dev/dm-.+|tmpfs)'} * 100) > 95
+  FOR 15m
+  LABELS {
+    severity="critical"
+  }
+  ANNOTATIONS {
+    summary = "Disk usage alert on {{ $labels.instance }}",
+    description = "disk usage {{ $value }}% on {{ $labels.device }} device",
+  }
+
+# Alert for load average
+ALERT Loadavg
+  IF node_load1 > count by (mode) (node_cpu{mode="system"})
+  FOR 15m
+  LABELS {
+    severity="warning"
+  }
+  ANNOTATIONS {
+    summary = "High load average on {{ $labels.instance }}",
+    description = "loadavg1: {{ $value }}"
+  }
+
+# Alert for Swap Usage Warning
+ALERT Swappiness
+  IF round( ( node_memory_SwapTotal{instance=~".*.pro..*"} - node_memory_SwapFree{instance=~".*.pro..*"} ) / 1048576 ) > 100
+  FOR 15m
+  LABELS {
+    severity="warning"
+  }
+  ANNOTATIONS {
+    summary = "{{ $labels.instance }} Swapping",
+    description = "{{ $value }}MB swap memory"
+  }
+
+# Alert for Swap Usage Crtical
+ALERT Swappiness
+  IF round( (node_memory_SwapTotal - node_memory_SwapFree) / 1048576) > round ( ( node_memory_SwapFree / 1048576 - 100 ) )
+  FOR 15m
+  LABELS {
+    severity="severe"
+  }
+  ANNOTATIONS {
+    summary = "{{ $labels.instance }} Swapping",
+    description = "Less than 100MB free"
+  }

@@ -1,0 +1,56 @@
+group:
+  {{ prometheus_group }}:
+    exists: true
+
+user:
+  {{ prometheus_user }}:
+    exists: true
+    groups:
+      - {{ prometheus_group }}
+
+file:
+  /etc/prometheus:
+    exists: true
+    filetype: directory
+  {{ prometheus_root_path }}:
+    owner: {{ prometheus_user }}
+    group: {{ prometheus_group }}
+    exists: true
+    filetype: directory
+  {{ prometheus_data_path }}:
+    owner: {{ prometheus_user }}
+    group: {{ prometheus_group }}
+    exists: true
+    filetype: directory
+  {{ prometheus_bin_path }}:
+    owner: {{ prometheus_user }}
+    group: {{ prometheus_group }}
+    exists: true
+    filetype: directory
+  {{ prometheus_log_path }}:
+    owner: {{ prometheus_user }}
+    group: {{ prometheus_group }}
+    exists: true
+    filetype: directory
+  {{ prometheus_rules_path }}:
+    owner: {{ prometheus_user }}
+    group: {{ prometheus_group }}
+    exists: true
+    filetype: directory
+  /run/prometheus_server:
+    owner: {{ prometheus_user }}
+    group: {{ prometheus_group }}
+    exists: true
+    filetype: directory
+  /lib/systemd/system/prometheus.service:
+    exists: true
+
+service:
+  prometheus:
+    enabled: true
+    running: true
+
+http:
+  http://{{ ansible_nodename }}:9090/targets:
+    status: 200
+

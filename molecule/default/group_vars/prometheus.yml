@@ -1,0 +1,13 @@
+---
+
+prometheus_log_file: "prometheus.log"
+prometheus_root_path: /opt/prometheus
+prometheus_bin_path: "{{ prometheus_root_path }}/bin"
+prometheus_conf_path: "/etc/prometheus"
+prometheus_rules_path: "{{ prometheus_conf_path }}/rules"
+prometheus_data_path: "{{ prometheus_root_path }}/data"
+prometheus_log_path: "/var/log/prometheus"
+
+prometheus_user: prometheus
+prometheus_group: prometheus
+
