@@ -2,14 +2,14 @@
 dist: xenial
 language: python
 python: "3.7"
-sudo: required
+os: linux
 services:
   - docker
 install:
   - pip install pipenv
   - pipenv sync
 env:
-  matrix:
+  jobs:
     - DOCKER_BASE_IMAGE=debian:stretch-slim
     - DOCKER_BASE_IMAGE=debian:buster-slim
 script:
