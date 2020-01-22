@@ -1,8 +1,0 @@
-name: test3
-server: test3_server
-services:
-  - 9100
-  - 9145
-inventory:
-  a:
-    aa: 2
