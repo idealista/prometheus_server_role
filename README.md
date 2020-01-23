@@ -1,6 +1,6 @@
-![Logo](https://raw.githubusercontent.com/idealista/prometheus_server-role/master/logo.gif)
+![Logo](https://raw.githubusercontent.com/idealista/prometheus_server_role/master/logo.gif)
 
-[![Build Status](https://travis-ci.org/idealista/prometheus_server-role.png)](https://travis-ci.org/idealista/prometheus_server-role)
+[![Build Status](https://travis-ci.org/idealista/prometheus_server_role.png)](https://travis-ci.org/idealista/prometheus_server_role)
 
 # Prometheus Server Ansible role
 
@@ -23,18 +23,18 @@ These instructions will get you a copy of the role for your ansible playbook. On
 
 ### Prerequisities
 
-Ansible 2.3.1.0 version installed.
+Ansible 2.8.x.x version installed.
 Inventory destination should be a Debian environment.
 
-For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Vagrant](https://www.vagrantup.com/) as driver (with [landrush](https://github.com/vagrant-landrush/landrush) plugin) and [VirtualBox](https://www.virtualbox.org/) as provider.
+For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Docker](https://www.docker.com/) as driver. Pipenv 2018.11.26 and Python 3 recommended.
 
 ### Installing
 
 Create or add to your roles dependency file (e.g requirements.yml):
 
 ```
-- src: idealista.prometheus_server-role
-  version: 1.0.0
+- src: idealista.prometheus_server_role
+  version: 1.5.0
   name: prometheus
 ```
 
@@ -60,22 +60,21 @@ Look to the [defaults](defaults/main.yml) properties file to see the possible co
 ## Testing
 
 ```
-$ pipenv install -r test-requirements.txt --python 2.7
-
-$ pipenv run molecule test --driver=docker
+pipenv shell
+pipenv sync
+molecule test
 ```
 
-See [molecule.yml](https://github.com/idealista/prometheus_server-role/blob/master/molecule.yml) to check possible testing platforms
+See [molecule.yml](https://github.com/idealista/prometheus_server_role/blob/master/molecule.yml) to check possible testing platforms
 
 ## Built With
 
-![Ansible](https://img.shields.io/badge/ansible-2.4.1.0-green.svg)
-![Molecule](https://img.shields.io/badge/molecule-1.25.0-green.svg)
-![Testinfra](https://img.shields.io/badge/testinfra-1.9.0-green.svg)
+![Ansible](https://img.shields.io/badge/ansible-2.8.6.0-green.svg)
+![Molecule](https://img.shields.io/badge/molecule-2.22.0-green.svg)
 
 ## Versioning
 
-For the versions available, see the [tags on this repository](https://github.com/idealista/prometheus_server-role/tags).
+For the versions available, see the [tags on this repository](https://github.com/idealista/prometheus_server_role/tags).
 
 Additionaly you can see what change in each version in the [CHANGELOG.md](CHANGELOG.md) file.
 
@@ -83,7 +82,7 @@ Additionaly you can see what change in each version in the [CHANGELOG.md](CHANGE
 
 * **Idealista** - *Work with* - [idealista](https://github.com/idealista)
 
-See also the list of [contributors](https://github.com/idealista/prometheus_server-role/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/idealista/prometheus_server_role/contributors) who participated in this project.
 
 ## License
 
