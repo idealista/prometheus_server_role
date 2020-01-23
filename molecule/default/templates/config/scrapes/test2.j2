@@ -4,8 +4,8 @@
     static_configs:
       - targets:
 {% set inventory =  app.get("inventory",  default_app.inventory) %}
-{% for env, countries in inventory.iteritems() %}
-{% for country, machines in countries.iteritems() %}
+{% for env, countries in inventory.items() %}
+{% for country, machines in countries.items() %}
 {% set services =  app.get("services",  default_app.services) %}
 {% for service in services %}
 {% if machines is defined and machines > 0 %}

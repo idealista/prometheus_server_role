@@ -1,12 +1,10 @@
 ---
 
-- hosts: all
+- hosts: prometheus
   pre_tasks:
     - name: Prometheus | Installing required dependencies
       apt:
-        pkg: "{{ item }}"
+        pkg: net-tools
         state: present
-      with_items:
-        - net-tools
   roles:
-    - prometheus_server-role
+    - prometheus_server_role
