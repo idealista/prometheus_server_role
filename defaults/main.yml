@@ -53,6 +53,11 @@ prometheus_alertmanager_port: 9093
 
 # STORAGE
 prometheus_storage_tsdb_retention: 15d
+
+# REMOTES
+prometheus_remote_write_endpoints: []
+prometheus_remote_read_endpoints: []
+
 ## DEPRECATED
 prometheus_storage_local_target_heap_size: 5368709120
 prometheus_storage_retention: 180h0m0s
