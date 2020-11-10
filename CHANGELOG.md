@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/prometheus_server_role/tree/develop)
 
+## [1.6.0](https://github.com/idealista/prometheus_server_role/tree/1.6.0)
+[Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.5.0...1.6.0)
+### Added
+- *[#34](https://github.com/idealista/prometheus_server_role/issues/34) Support remote read and write features* @vicsufer
+
 ## [1.5.0](https://github.com/idealista/prometheus_server_role/tree/1.5.0)
 [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.4.2...1.5.0)
 ### Fixed

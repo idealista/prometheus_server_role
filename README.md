@@ -1,6 +1,6 @@
 ![Logo](https://raw.githubusercontent.com/idealista/prometheus_server_role/master/logo.gif)
 
-[![Build Status](https://travis-ci.org/idealista/prometheus_server_role.png)](https://travis-ci.org/idealista/prometheus_server_role)
+[![Build Status](https://travis-ci.com/idealista/prometheus_server_role.png)](https://travis-ci.com/idealista/prometheus_server_role)
 
 # Prometheus Server Ansible role
 

@@ -19,6 +19,20 @@ global:
     {{ label.name }}: {{ label.value }}
   {% endfor %}
 
+{% if (prometheus_remote_read_endpoints is defined) and prometheus_remote_read_endpoints %}
+remote_read:
+{% for remote_endpoint in prometheus_remote_read_endpoints %}
+  - url: "{{ remote_endpoint }}"
+{% endfor %}
+{% endif %}
+
+{% if (prometheus_remote_write_endpoints is defined) and prometheus_remote_write_endpoints%}
+remote_write:
+{% for remote_endpoint in prometheus_remote_write_endpoints %}
+  - url: "{{ remote_endpoint }}"
+{% endfor %}
+{% endif %}
+
 rule_files:
 {% for template in prometheus_rules_templates %}
   - {{ prometheus_conf_path }}/rules/{{ template }}
