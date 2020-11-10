@@ -10,3 +10,8 @@ prometheus_log_path: "/var/log/prometheus"
 
 prometheus_user: prometheus
 prometheus_group: prometheus
+
+prometheus_remote_write_endpoints:
+  - http://localhost:8080/write
+prometheus_remote_read_endpoints:
+  - http://localhost:8080/read
