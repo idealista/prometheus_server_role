@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a changelog](https://github.com/olivierlacan/keep-a-changelog).
 
 ## [Unreleased](https://github.com/idealista/prometheus_server_role/tree/develop)
+### Added
+- *[#37](https://github.com/idealista/prometheus_server_role/issues/37) Replace copy with template with custom delimiters for rules* @caldito
 
 ## [1.6.0](https://github.com/idealista/prometheus_server_role/tree/1.6.0)
 [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.5.0...1.6.0)
