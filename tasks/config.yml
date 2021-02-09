@@ -10,12 +10,16 @@
   notify: restart prometheus
 
 - name: PROMETHEUS | Copy rules
-  copy:
+  template:
     src: "{{ item }}"
     dest: "{{ prometheus_conf_path }}/rules/{{ item | basename}}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
+    variable_start_string: "{{ prometheus_rule_templates_variable_start }}"
+    variable_end_string: "{{ prometheus_rule_templates_variable_end }}"
+    block_start_string: "{{ prometheus_rule_templates_block_start }}"
+    block_end_string: "{{ prometheus_rule_templates_block_end }}"
   with_fileglob:
     - "{{ prometheus_rules_templates_path }}/*"
   notify:
