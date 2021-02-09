@@ -57,6 +57,14 @@ Use in a playbook:
 
 Look to the [defaults](defaults/main.yml) properties file to see the possible configuration properties.
 
+:warning: The Prometheus rules support templating but custom jinja delimiters are used to avoid conflicts with the Go templates used by Prometheus. Those custom delimiters are defined in the following variables and can be overrided: 
+```
+prometheus_rule_templates_variable_start: "<<"
+prometheus_rule_templates_variable_end: ">>"
+prometheus_rule_templates_block_start: "<%"
+prometheus_rule_templates_block_end: "%>"
+```
+
 ## Testing
 
 ```
