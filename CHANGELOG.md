@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a changelog](https://github.com/olivierlacan/keep-a-changelog).
 
 ## [Unreleased](https://github.com/idealista/prometheus_server_role/tree/develop)
+### Fixed
+### Added
+### Changed
+### Removed
+
+## [1.8.0](https://github.com/idealista/prometheus_server_role/tree/1.8.0)
+## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.7.0...1.8.0)
 ### Added
 - *[#40](https://github.com/idealista/prometheus_server_role/issues/40) [FEATURE] Remote write tuning support* @emepege
 
