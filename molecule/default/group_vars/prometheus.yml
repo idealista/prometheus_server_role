@@ -12,6 +12,10 @@ prometheus_user: prometheus
 prometheus_group: prometheus
 
 prometheus_remote_write_endpoints:
-  - http://localhost:8080/write
+  - url: http://localhost:8080/write
+    queue_config:
+      max_samples_per_send: 1000
+      capacity: 5000
+      max_shards: 50
 prometheus_remote_read_endpoints:
-  - http://localhost:8080/read
+  - url: http://localhost:8080/read

@@ -22,14 +22,20 @@ global:
 {% if (prometheus_remote_read_endpoints is defined) and prometheus_remote_read_endpoints %}
 remote_read:
 {% for remote_endpoint in prometheus_remote_read_endpoints %}
-  - url: "{{ remote_endpoint }}"
+  - url: "{{ remote_endpoint.url }}"
 {% endfor %}
 {% endif %}
 
 {% if (prometheus_remote_write_endpoints is defined) and prometheus_remote_write_endpoints%}
 remote_write:
 {% for remote_endpoint in prometheus_remote_write_endpoints %}
-  - url: "{{ remote_endpoint }}"
+  - url: "{{ remote_endpoint.url }}"
+{% if remote_endpoint.queue_config is defined %}
+    queue_config:
+{% for queue_config_key, value in remote_endpoint.queue_config.items() %}
+      {{ queue_config_key }}: {{ value }}
+{% endfor %}
+{% endif %}
 {% endfor %}
 {% endif %}
 
