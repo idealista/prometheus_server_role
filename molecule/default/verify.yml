@@ -7,9 +7,9 @@
   hosts: all
   become: true
   vars:
-    goss_version: v0.3.9
+    goss_version: v0.3.16
     goss_arch: amd64
-    goss_sha256sum: 5e4a51a8c0f955e5ce99851b4a15eed9f1b3b6bee17f23dabda08071775663c8
+    goss_sha256sum: 827e354b48f93bce933f5efcd1f00dc82569c42a179cf2d384b040d8a80bfbfb
     goss_dst: /usr/local/bin/goss
     goss_url: "https://github.com/aelsabbahy/goss/releases/download/{{ goss_version }}/goss-linux-{{ goss_arch }}"
     goss_test_directory: /tmp
