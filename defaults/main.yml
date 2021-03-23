@@ -42,7 +42,10 @@ prometheus_rule_templates_block_end: "%>"
 prometheus_service_template_path: prometheus.service.j2
 prometheus_environment_template_path: prometheus.environment.j2
 prometheus_global_config_template_path: 1_global_prometheus.j2
+
+# Logrotate
 prometheus_logrotate_template_path: logrotate.j2
+prometheus_logrotate_enabled: true
 
 # Port & host
 prometheus_port: 9090
