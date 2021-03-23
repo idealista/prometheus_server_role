@@ -1,6 +1,6 @@
 
 exclude_paths:
-  - ./molecule
+  - /molecule
   - /.travis.yml
   - /.github
 parseable: true

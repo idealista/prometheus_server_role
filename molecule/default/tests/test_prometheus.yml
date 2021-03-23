@@ -1,3 +1,5 @@
+---
+
 group:
   {{ prometheus_group }}:
     exists: true
@@ -53,11 +55,6 @@ service:
 http:
   http://{{ ansible_nodename }}:{{ prometheus_port }}/targets:
     status: 200
-
-command:
-  prometheus-config-check:
-    exec: "promtool check-config /etc/prometheus/prometheus.yml"
-    exit-status: 0
 
 http:
   http://localhost:9090:
