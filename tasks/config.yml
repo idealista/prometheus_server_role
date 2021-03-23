@@ -12,7 +12,7 @@
 - name: PROMETHEUS | Copy rules
   template:
     src: "{{ item }}"
-    dest: "{{ prometheus_conf_path }}/rules/{{ item | basename}}"
+    dest: "{{ prometheus_conf_path }}/rules/{{ item | basename }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -65,7 +65,7 @@
 - name: PROMETHEUS | Copy server config (global)
   template:
     src: "{{ prometheus_global_config_template_path }}"
-    dest: "{{prometheus_conf_path}}/parts/1_global_prometheus"
+    dest: "{{ prometheus_conf_path }}/parts/1_global_prometheus"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -80,7 +80,7 @@
 - name: PROMETHEUS | Copy scrapes
   template:
     src: "{{ item }}"
-    dest: "{{prometheus_conf_path}}/parts/2_{{ item | basename | splitext | first }}"
+    dest: "{{ prometheus_conf_path }}/parts/2_{{ item | basename | splitext | first }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -131,3 +131,4 @@
     mode: 0644
     owner: root
     group: root
+  when: prometheus_logrotate_enabled

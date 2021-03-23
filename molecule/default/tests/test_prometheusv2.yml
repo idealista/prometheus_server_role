@@ -1,0 +1,9 @@
+---
+
+command:
+  prometheus-config-check:
+    exec: "promtool check config /etc/prometheus/prometheus.yml"
+    exit-status: 0
+  prometheus-rules-check:
+    exec: "promtool check rules /etc/prometheus/rules/*"
+    exit-status: 0

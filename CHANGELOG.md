@@ -8,6 +8,12 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ### Changed
 ### Removed
 
+## [1.9.0](https://github.com/idealista/prometheus_server_role/tree/1.9.0)
+## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.8.0...1.9.0)
+### Changed
+- *Upgraded to molecule 3 and more tests* @ablopez
+- *Optional logrotate config* @ablopez
+
 ## [1.8.0](https://github.com/idealista/prometheus_server_role/tree/1.8.0)
 ## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.7.0...1.8.0)
 ### Added

@@ -1,3 +1,5 @@
+---
+
 group:
   {{ prometheus_group }}:
     exists: true
@@ -54,3 +56,6 @@ http:
   http://{{ ansible_nodename }}:{{ prometheus_port }}/targets:
     status: 200
 
+http:
+  http://localhost:9090:
+    status: 200
