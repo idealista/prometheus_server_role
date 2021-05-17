@@ -9,10 +9,10 @@
     mode: 0640
   notify: restart prometheus
 
-- name: PROMETHEUS | Copy rules
+- name: PROMETHEUS | Copy temporary rules
   template:
     src: "{{ item }}"
-    dest: "{{ prometheus_conf_path }}/rules/{{ item | basename }}"
+    dest: "{{ prometheus_tmp_path }}/rules/{{ item | basename }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -22,8 +22,29 @@
     block_end_string: "{{ prometheus_rule_templates_block_end }}"
   with_fileglob:
     - "{{ prometheus_rules_templates_path }}/*"
-  notify:
-    - reload prometheus
+
+- name: PROMETHEUS | Find temporary rules
+  find:
+    paths: "{{ prometheus_tmp_path }}/rules"
+    file_type: file
+  register: tmp_rules
+
+- name: PROMETHEUS | Validate rules
+  command:
+    cmd: "promtool {{ prometheus_promtool_check_rules }} {{ item.path }}"
+  changed_when: false
+  loop: "{{ tmp_rules.files }}"
+
+- name: PROMETHEUS | Copy rules
+  copy:
+    src: "{{ item.path }}"
+    dest: "{{ prometheus_conf_path }}/rules/{{ item.path | basename }}"
+    remote_src: yes
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: 0640
+  notify: reload prometheus
+  loop: "{{ tmp_rules.files }}"
 
 - name: PROMETHEUS | Set rules loaded var
   find:
@@ -65,7 +86,7 @@
 - name: PROMETHEUS | Copy server config (global)
   template:
     src: "{{ prometheus_global_config_template_path }}"
-    dest: "{{ prometheus_conf_path }}/parts/1_global_prometheus"
+    dest: "{{ prometheus_tmp_path }}/parts/1_global_prometheus"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -80,7 +101,7 @@
 - name: PROMETHEUS | Copy scrapes
   template:
     src: "{{ item }}"
-    dest: "{{ prometheus_conf_path }}/parts/2_{{ item | basename | splitext | first }}"
+    dest: "{{ prometheus_tmp_path }}/parts/2_{{ item | basename | splitext | first }}"
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
@@ -105,22 +126,45 @@
     file_type: file
   register: all_scrapes
 
+- name: PROMETHEUS | Join config parts
+  assemble:
+    remote_src: true
+    src: "{{ prometheus_tmp_path }}/parts"
+    dest: "{{ prometheus_tmp_path }}/prometheus.yml"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: 0640
+    delimiter: '\n'
+  notify:
+    - restart prometheus
+
+- name: PROMETHEUS | Validate config
+  command:
+    cmd: "promtool {{ prometheus_promtool_check_config }} {{ prometheus_tmp_path }}/prometheus.yml"
+  changed_when: false
+
 - name: PROMETHEUS | Remove old scrapes
   file:
     path: "{{ prometheus_conf_path }}/parts/{{ item }}"
     state: absent
   with_items:
-    - "{{ all_scrapes.files | map(attribute='path') |  map('basename') | map('splitext') | map('first') | list | difference(prometheus_scrapes_templates) }}"
+    - "{{ all_scrapes.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | list | difference(prometheus_scrapes_templates) }}"
 
-- name: PROMETHEUS | Join config parts
-  assemble:
-    remote_src: true
-    src: "{{ prometheus_conf_path }}/parts"
-    dest: "{{ prometheus_conf_path }}/prometheus.yml"
+- name: PROMETHEUS | Find tmp config
+  find:
+    path: "{{ prometheus_tmp_path }}"
+    file_type: any
+  register: tmp_config
+
+- name: PROMETHEUS | Copy config
+  copy:
+    src: "{{ item.path }}"
+    dest: "{{ prometheus_conf_path }}"
+    remote_src: yes
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
-    delimiter: '\n'
+  loop: "{{ tmp_config.files }}"
   notify:
     - restart prometheus
 
