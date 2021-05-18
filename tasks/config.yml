@@ -127,7 +127,6 @@
     group: "{{ prometheus_group }}"
     mode: 0640
     delimiter: '\n'
-  notify: restart prometheus
 
 - name: PROMETHEUS | Validate config
   command: "promtool {{ prometheus_promtool_check_config }} {{ prometheus_tmp_path }}/prometheus.yml"
