@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ## [Unreleased](https://github.com/idealista/prometheus_server_role/tree/develop)
 ### Fixed
 ### Added
+- *[#49](https://github.com/idealista/prometheus_server_role/issues/49) Promtool testing before deploying* @blalop
+
 ### Changed
 ### Removed
 

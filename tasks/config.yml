@@ -30,8 +30,7 @@
   register: tmp_rules
 
 - name: PROMETHEUS | Validate rules
-  command:
-    cmd: "promtool {{ prometheus_promtool_check_rules }} {{ item.path }}"
+  command: "promtool {{ prometheus_promtool_check_rules }} {{ item.path }}"
   changed_when: false
   loop: "{{ tmp_rules.files }}"
 
@@ -139,8 +138,7 @@
     - restart prometheus
 
 - name: PROMETHEUS | Validate config
-  command:
-    cmd: "promtool {{ prometheus_promtool_check_config }} {{ prometheus_tmp_path }}/prometheus.yml"
+  command: "promtool {{ prometheus_promtool_check_config }} {{ prometheus_tmp_path }}/prometheus.yml"
   changed_when: false
 
 - name: PROMETHEUS | Remove old scrapes
@@ -150,23 +148,19 @@
   with_items:
     - "{{ all_scrapes.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | list | difference(prometheus_scrapes_templates) }}"
 
-- name: PROMETHEUS | Find tmp config
-  find:
-    path: "{{ prometheus_tmp_path }}"
-    file_type: any
-  register: tmp_config
-
 - name: PROMETHEUS | Copy config
   copy:
-    src: "{{ item.path }}"
-    dest: "{{ prometheus_conf_path }}"
+    src: "{{ prometheus_tmp_path }}/{{ item.file }}"
+    dest: "{{ prometheus_conf_path }}/{{ item.file }}"
     remote_src: yes
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
-    mode: 0640
-  loop: "{{ tmp_config.files }}"
+    mode: "{{ item.mode }}"
   notify:
     - restart prometheus
+  loop:
+    - { file: prometheus.yml, mode: '0640' }
+    - { file: parts/, mode: '0755' }
 
 - name: PROMETHEUS | Copy logrotate config
   template:
