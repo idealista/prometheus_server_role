@@ -7,6 +7,10 @@ prometheus_release_system: linux-amd64
 # Set true to force the download and installation of the binary
 prometheus_force_reinstall: false
 
+# Validate rules & config before making any changes
+prometheus_rules_validation: true
+prometheus_config_validation: true
+
 ## Service options
 
 # Owner

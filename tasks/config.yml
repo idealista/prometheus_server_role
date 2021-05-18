@@ -9,7 +9,7 @@
     mode: 0640
   notify: restart prometheus
 
-- name: PROMETHEUS | Copy temporary rules
+- name: PROMETHEUS | Copy rules
   template:
     src: "{{ item }}"
     dest: "{{ prometheus_tmp_path }}/rules/{{ item | basename }}"
@@ -23,7 +23,7 @@
   with_fileglob:
     - "{{ prometheus_rules_templates_path }}/*"
 
-- name: PROMETHEUS | Find temporary rules
+- name: PROMETHEUS | Find rules
   find:
     paths: "{{ prometheus_tmp_path }}/rules"
     file_type: file
@@ -33,8 +33,9 @@
   command: "promtool {{ prometheus_promtool_check_rules }} {{ item.path }}"
   changed_when: false
   loop: "{{ tmp_rules.files }}"
+  when: prometheus_rules_validation
 
-- name: PROMETHEUS | Copy rules
+- name: PROMETHEUS | Load rules
   copy:
     src: "{{ item.path }}"
     dest: "{{ prometheus_conf_path }}/rules/{{ item.path | basename }}"
@@ -45,17 +46,9 @@
   notify: reload prometheus
   loop: "{{ tmp_rules.files }}"
 
-- name: PROMETHEUS | Set rules loaded var
-  find:
-    paths: "{{ prometheus_rules_templates_path }}"
-    file_type: file
-  delegate_to: localhost
-  become: no
-  register: rules_loaded
-
-- name: PROMETHEUS | Set rules templates var
+- name: PROMETHEUS | Set new rules var
   set_fact:
-    prometheus_rules_templates: "{{ rules_loaded.files | map(attribute='path') | map('basename') | list }}"
+    new_rules: "{{ tmp_rules.files | map(attribute='path') | map('basename') | list }}"
 
 - name: PROMETHEUS | List all rules in path
   find:
@@ -68,7 +61,7 @@
     path: "{{ prometheus_conf_path }}/rules/{{ item }}"
     state: absent
   with_items:
-    - "{{ all_rules.files | map(attribute='path') | map('basename') | list | difference(prometheus_rules_templates) }}"
+    - "{{ all_rules.files | map(attribute='path') | map('basename') | list | difference(new_rules) }}"
 
 - name: PROMETHEUS | Set rules loaded var
   find:
@@ -134,12 +127,12 @@
     group: "{{ prometheus_group }}"
     mode: 0640
     delimiter: '\n'
-  notify:
-    - restart prometheus
+  notify: restart prometheus
 
 - name: PROMETHEUS | Validate config
   command: "promtool {{ prometheus_promtool_check_config }} {{ prometheus_tmp_path }}/prometheus.yml"
   changed_when: false
+  when: prometheus_config_validation
 
 - name: PROMETHEUS | Remove old scrapes
   file:
@@ -148,7 +141,7 @@
   with_items:
     - "{{ all_scrapes.files | map(attribute='path') | map('basename') | map('splitext') | map('first') | list | difference(prometheus_scrapes_templates) }}"
 
-- name: PROMETHEUS | Copy config
+- name: PROMETHEUS | Load config
   copy:
     src: "{{ prometheus_tmp_path }}/{{ item.file }}"
     dest: "{{ prometheus_conf_path }}/{{ item.file }}"
@@ -156,8 +149,7 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: "{{ item.mode }}"
-  notify:
-    - restart prometheus
+  notify: restart prometheus
   loop:
     - { file: prometheus.yml, mode: '0640' }
     - { file: parts/, mode: '0755' }
