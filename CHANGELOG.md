@@ -5,16 +5,19 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ## [Unreleased](https://github.com/idealista/prometheus_server_role/tree/develop)
 ### Fixed
 ### Added
-- *[#49](https://github.com/idealista/prometheus_server_role/issues/49) Promtool testing before deploying* @blalop
-
 ### Changed
 ### Removed
+
+## [1.10.0](https://github.com/idealista/prometheus_server_role/tree/1.10.0)
+## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.9.0...1.10.0)
+### Added
+- *[#49](https://github.com/idealista/prometheus_server_role/issues/49) Promtool testing before deploying* @blalop
 
 ## [1.9.0](https://github.com/idealista/prometheus_server_role/tree/1.9.0)
 ## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.8.0...1.9.0)
 ### Changed
-- *Upgraded to molecule 3 and more tests* @ablopez
-- *Optional logrotate config* @ablopez
+- *Upgraded to molecule 3 and more tests* @blalop
+- *Optional logrotate config* @blalop
 
 ## [1.8.0](https://github.com/idealista/prometheus_server_role/tree/1.8.0)
 ## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.7.0...1.8.0)
