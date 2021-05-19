@@ -7,6 +7,10 @@ prometheus_release_system: linux-amd64
 # Set true to force the download and installation of the binary
 prometheus_force_reinstall: false
 
+# Validate rules & config before making any changes
+prometheus_rules_validation: true
+prometheus_config_validation: true
+
 ## Service options
 
 # Owner
@@ -23,6 +27,7 @@ prometheus_log_file: "prometheus.log"
 prometheus_root_path: /opt/prometheus
 prometheus_bin_path: "{{ prometheus_root_path }}/bin"
 prometheus_conf_path: "/etc/prometheus"
+prometheus_tmp_path: "/tmp/prometheus"
 prometheus_rules_path: "{{ prometheus_conf_path }}/rules"
 prometheus_data_path: "{{ prometheus_root_path }}/data"
 prometheus_log_path: "/var/log/prometheus"
@@ -55,6 +60,11 @@ prometheus_enable_remote_shutdown: 'false'
 
 # Handlers
 prometheus_reload_timeout: 60  # In seconds
+
+# Commands
+prometheus_promtool_cmd_separator: "{{ '-' if prometheus_version is version('2.0', operator='lt', strict=True) else ' ' }}"
+prometheus_promtool_check_rules: "check{{ prometheus_promtool_cmd_separator }}rules"
+prometheus_promtool_check_config: "check{{ prometheus_promtool_cmd_separator }}config"
 
 # ALERTMANAGER
 prometheus_alertmanager_host: localhost

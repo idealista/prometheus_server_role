@@ -33,6 +33,9 @@
     - "{{ prometheus_conf_path }}/rules"
     - "{{ prometheus_data_path }}"
     - "{{ prometheus_log_path }}"
+    - "{{ prometheus_tmp_path }}"
+    - "{{ prometheus_tmp_path }}/parts"
+    - "{{ prometheus_tmp_path }}/rules"
 
 - name: PROMETHEUS | Check prometheus version
   command: prometheus --version
