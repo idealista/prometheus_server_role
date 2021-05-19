@@ -39,6 +39,11 @@ file:
     group: {{ prometheus_group }}
     exists: true
     filetype: directory
+  {{ prometheus_conf_path }}/parts/1_global_prometheus:
+    owner: {{ prometheus_user }}
+    group: {{ prometheus_group }}
+    exists: true
+    filetype: file
   /run/prometheus_server:
     owner: {{ prometheus_user }}
     group: {{ prometheus_group }}
