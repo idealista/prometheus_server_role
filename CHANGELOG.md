@@ -8,6 +8,9 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ### Changed
 ### Removed
 
+### Added
+- [#53](https://github.com/idealista/prometheus_server_role/issues/53) *[BUG] Change prometheus user shell path in /etc/passwd* @marcelogalmor
+
 ## [1.10.0](https://github.com/idealista/prometheus_server_role/tree/1.10.0)
 ## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.9.0...1.10.0)
 ### Added
