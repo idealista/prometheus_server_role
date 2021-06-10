@@ -15,7 +15,7 @@
     name: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     system: yes
-    shell: /sbin/nologin
+    shell: "{{ prometheus_user_shell }}"
     createhome: no
 
 - name: PROMETHEUS | Ensure skeleton paths
