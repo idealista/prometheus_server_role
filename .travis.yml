@@ -15,7 +15,6 @@ env:
 script:
   - export DOCKER_BASE_IMAGE=${DOCKER_BASE_IMAGE}
   - pipenv run molecule test
-
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
   email:

@@ -16,6 +16,7 @@ prometheus_config_validation: true
 # Owner
 prometheus_user: prometheus
 prometheus_group: prometheus
+prometheus_user_shell: /usr/sbin/nologin
 
 # start on boot
 prometheus_service_enabled: True
