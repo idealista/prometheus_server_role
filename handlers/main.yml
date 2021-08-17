@@ -1,9 +1,4 @@
 ---
-- name: reload prometheus
-  uri:
-    url: "http://localhost:{{ prometheus_port }}/-/reload"
-    method: "POST"
-    timeout: "{{ prometheus_reload_timeout }}"
 
 - name: restart prometheus
   systemd:

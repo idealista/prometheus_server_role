@@ -43,7 +43,7 @@
     owner: "{{ prometheus_user }}"
     group: "{{ prometheus_group }}"
     mode: 0640
-  notify: reload prometheus
+  notify: restart prometheus
   loop: "{{ tmp_rules.files }}"
 
 - name: PROMETHEUS | Set new rules var

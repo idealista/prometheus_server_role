@@ -59,9 +59,6 @@ prometheus_external_hostname: "{{ ansible_nodename }}"
 
 prometheus_enable_remote_shutdown: 'false'
 
-# Handlers
-prometheus_reload_timeout: 60  # In seconds
-
 # Commands
 prometheus_promtool_cmd_separator: "{{ '-' if prometheus_version is version('2.0', operator='lt', strict=True) else ' ' }}"
 prometheus_promtool_check_rules: "check{{ prometheus_promtool_cmd_separator }}rules"
