@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ### Removed
 
 ### Fixed
-- [#56](https://github.com/idealista/prometheus_server_role/issues/56) *Stop using reload handler in favour of the restart one* @caldito
+- [#56](https://github.com/idealista/prometheus_server_role/issues/56) *Stop using reload handler in favor of the restart one* @caldito
 ### Added
 - [#53](https://github.com/idealista/prometheus_server_role/issues/53) *[BUG] Change prometheus user shell path in /etc/passwd* @marcelogalmor
 
