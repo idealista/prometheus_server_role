@@ -10,7 +10,7 @@ ansible = "==2.9.21"
 molecule = "==3.0.8"
 docker = "==4.1.0"
 ansible-lint = "==4.2.0"
-jinja2= "==2.11.3"
+jinja2 = "==3.1.2"
 
 [requires]
 python_version = "3.9"
