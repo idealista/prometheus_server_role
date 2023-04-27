@@ -10,7 +10,6 @@ install:
   - pipenv sync
 env:
   jobs:
-    - DOCKER_BASE_IMAGE=debian:stretch-slim
     - DOCKER_BASE_IMAGE=debian:buster-slim
 script:
   - export DOCKER_BASE_IMAGE=${DOCKER_BASE_IMAGE}
