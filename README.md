@@ -26,7 +26,8 @@ These instructions will get you a copy of the role for your ansible playbook. On
 Ansible 2.9.x.x version installed.
 Inventory destination should be a Debian environment.
 
-For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Docker](https://www.docker.com/) as driver. Pipenv 2018.11.26 and Python 3 recommended.
+For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Docker](https://www.docker.com/) as driver.
+Take a look at the [Pipfile](Pipfile) file to check the dependencies that need to be installed to successfully run this component.
 
 ### Installing
 
@@ -34,7 +35,7 @@ Create or add to your roles dependency file (e.g requirements.yml):
 
 ```
 - src: idealista.prometheus_server_role
-  version: 1.10.0
+  version: 1.10.1
   name: prometheus
 ```
 
