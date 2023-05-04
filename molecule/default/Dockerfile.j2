@@ -8,6 +8,16 @@ FROM {{ item.image }}
 
 RUN mkdir -p /usr/share/man/man1
 
+{% if 'debian:stretch-slim' == item.image %}
+    RUN echo "deb http://archive.debian.org/debian/ stretch contrib main non-free" > /etc/apt/sources.list && \
+        echo "deb-src http://archive.debian.org/debian/ stretch contrib main non-free" >> /etc/apt/sources.list && \
+        echo "deb http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list && \
+        echo "deb-src http://archive.debian.org/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list && \
+        echo "deb http://archive.debian.org/debian/ stretch-proposed-updates main contrib non-free" >> /etc/apt/sources.list && \
+        echo "deb-src http://archive.debian.org/debian/ stretch-proposed-updates main contrib non-free" >> /etc/apt/sources.list && \
+        echo "deb http://archive.debian.org/debian/ stretch-backports main contrib non-free" >> /etc/apt/sources.list && \
+        echo "deb-src http://archive.debian.org/debian/ stretch-backports main contrib non-free" >> /etc/apt/sources.list
+{% endif %}
 RUN apt-get update && \
     apt-get install -y iproute2 sudo systemd systemd-sysv python python-setuptools ssh cron locales ca-certificates && \
     apt-get clean

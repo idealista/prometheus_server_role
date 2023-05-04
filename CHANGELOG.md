@@ -8,6 +8,13 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ### Changed
 ### Removed
 
+## [1.10.2](https://github.com/idealista/prometheus_server_role/tree/1.10.2)
+## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.10.1...1.10.2)
+### Added
+- [#59](https://github.com/idealista/prometheus_server_role/issues/59) *[BUG] Fixed Travis build updating python, ansible, molecule and docker version. Adding archive repos to debian stretch image* @LidiaSeldas
+
+## [1.10.1](https://github.com/idealista/prometheus_server_role/tree/1.10.1)
+## [Full Changelog](https://github.com/idealista/prometheus_server_role/compare/1.10.0...1.10.1)
 ### Added
 - [#53](https://github.com/idealista/prometheus_server_role/issues/53) *[BUG] Change prometheus user shell path in /etc/passwd* @marcelogalmor
 
