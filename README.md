@@ -35,7 +35,7 @@ Create or add to your roles dependency file (e.g requirements.yml):
 
 ```
 - src: idealista.prometheus_server_role
-  version: 1.10.1
+  version: 1.10.2
   name: prometheus
 ```
 
